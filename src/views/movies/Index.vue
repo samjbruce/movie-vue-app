@@ -1,11 +1,14 @@
 <template>
-  <div class="home">
+  <div class="movies-index">
     <h1>Movies</h1>
     <div v-for="movie in movies" v-bind:key="movie.id">
       <h3>Title: {{ movie.title }}</h3>
       <p> {{ movie.plot }}</p>
       <p>Release Date: {{ movie.year }}</p>
       <p>Director: {{ movie.director }}</p>
+      <router-link :to="`/movies/${movie.id}`">
+        <button>More Info</button>
+      </router-link>
     </div>
   </div>
 </template>
@@ -17,12 +20,7 @@
   export default {
     data: function () {
       return {
-        message: "Welcome to Vue.js!",
-        movies: [],
-        inputTitle: "",
-        inputPlot: "",
-        inputYear: "",
-        inputDirector: ""
+        movies: []
       };
     },
     created: function () {

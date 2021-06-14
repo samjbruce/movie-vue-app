@@ -1,7 +1,7 @@
 <template>
-  <div class="movies-new">
-    <form v-on:submit.prevent="createMovie()">
-      <h1>New Movie</h1>
+  <div class="movies-edit">
+    <form v-on:submit.prevent="editMovie()">
+      <h1>Edit Movie</h1>
       <ul>
         <li class="text-danger" v-for="error in errors" v-bind:key="error">
           {{ error }}
@@ -12,7 +12,7 @@
         <input
           type="text"
           class="form-control"
-          v-model="newMovieParams.title"
+          v-model="editMovieParams.title"
         />
       </div>
       <div class="form-group">
@@ -20,7 +20,7 @@
         <input
           type="text"
           class="form-control"
-          v-model="newMovieParams.plot"
+          v-model="editMovieParams.plot"
         />
       </div>
       <div class="form-group">
@@ -28,7 +28,7 @@
         <input
           type="text"
           class="form-control"
-          v-model="newMovieParams.year"
+          v-model="editMovieParams.year"
         />
       </div>
       <div class="form-group">
@@ -36,11 +36,12 @@
         <input
           type="text"
           class="form-control"
-          v-model="newMovieParams.director"
+          v-model="editMovieParams.director"
         />
       </div>
       <input type="submit" class="btn btn-primary" value="Submit" />
     </form>
+    <button v-on:click="destroyMovie">Delete Movie</button>
   </div>
 </template>
 
@@ -52,21 +53,35 @@
   export default {
     data: function () {
       return {
-        newMovieParams: {},
+        editMovieParams: {},
         errors: []
       };
     },
-    created: function () {},
+    created: function () {
+      axios.get(`/movies/${this.$route.params.id}`).then((response) => {
+        console.log(response.data);
+        this.editRecipeParams = response.data;
+      });
+    },
     methods: {
-      createMovie: function () {
-        axios.post("/movies", this.newMovieParams)
+      editMovie: function () {
+        axios.patch(`/movies/${this.$route.params.id}`, this.editMovieParams)
         .then((response) => {
           console.log(response.data);
-          this.$router.push("/movies");
+          this.$router.push(`/movies/${response.data.id}`);
         })
         .catch((error) => {
           console.log(error.response.data.errors);
         });
+      },
+      destroyMovie: function () {
+        if (confirm("Are you sure you want to delete this movie?")) {
+          axios.delete(`/movies/${this.$route.params.id}`)
+          .then((response) => {
+            console.log(response.data);
+            this.$router.push("/movies");
+           })
+        }
       }
     }
   };
