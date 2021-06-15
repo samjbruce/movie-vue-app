@@ -1,7 +1,8 @@
 <template>
   <div class="movies-index">
     <h1>Movies</h1>
-    <div v-for="movie in movies" v-bind:key="movie.id">
+    <input  placeholder="Search" v-model="titleFilter">
+    <div v-for="movie in filterBy(movies, titleFilter, 'title')" v-bind:key="movie.id">
       <h3>Title: {{ movie.title }}</h3>
       <p> {{ movie.plot }}</p>
       <p>Release Date: {{ movie.year }}</p>
@@ -17,10 +18,14 @@
 
 <script>
   import axios from "axios";
+  import Vue2Filters from "vue2-filters";
+
   export default {
+    mixins: [Vue2Filters.mixin],
     data: function () {
       return {
-        movies: []
+        movies: [],
+        titleFilter: ""
       };
     },
     created: function () {
