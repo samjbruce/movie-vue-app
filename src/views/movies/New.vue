@@ -17,19 +17,11 @@
       </div>
       <div class="form-group">
         <label>Plot:</label>
-        <input
-          type="text"
-          class="form-control"
-          v-model="newMovieParams.plot"
-        />
+        <input type="text" class="form-control" v-model="newMovieParams.plot" />
       </div>
       <div class="form-group">
         <label>Year:</label>
-        <input
-          type="text"
-          class="form-control"
-          v-model="newMovieParams.year"
-        />
+        <input type="text" class="form-control" v-model="newMovieParams.year" />
       </div>
       <div class="form-group">
         <label>Director:</label>
@@ -39,6 +31,25 @@
           v-model="newMovieParams.director"
         />
       </div>
+      <div class="form-group">
+        <label>English: </label>
+        <label for="english">Yes</label>
+        <input
+          type="radio"
+          name="english"
+          id="english"
+          value="true"
+          v-model="newMovieParams.english"
+        />
+        <input
+          type="radio"
+          name="enlgish"
+          id="english"
+          value="false"
+          v-model="newMovieParams.english"
+        />
+        <label for="enlgish">No</label>
+      </div>
       <input type="submit" class="btn btn-primary" value="Submit" />
     </form>
   </div>
@@ -47,19 +58,20 @@
 <style></style>
 
 <script>
-  import axios from "axios";
+import axios from "axios";
 
-  export default {
-    data: function () {
-      return {
-        newMovieParams: {},
-        errors: []
-      };
-    },
-    created: function () {},
-    methods: {
-      createMovie: function () {
-        axios.post("/movies", this.newMovieParams)
+export default {
+  data: function () {
+    return {
+      newMovieParams: {},
+      errors: [],
+    };
+  },
+  created: function () {},
+  methods: {
+    createMovie: function () {
+      axios
+        .post("/movies", this.newMovieParams)
         .then((response) => {
           console.log(response.data);
           this.$router.push("/movies");
@@ -67,7 +79,7 @@
         .catch((error) => {
           console.log(error.response.data.errors);
         });
-      }
-    }
-  };
+    },
+  },
+};
 </script>
