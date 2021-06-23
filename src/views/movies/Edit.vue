@@ -40,6 +40,14 @@
         />
       </div>
       <div class="form-group">
+        <label>Image URL:</label>
+        <input
+          type="text"
+          class="form-control"
+          v-model="editMovieParams.image_url"
+        />
+      </div>
+      <div class="form-group">
         <label>English: </label>
         <label for="english">Yes</label>
         <input
